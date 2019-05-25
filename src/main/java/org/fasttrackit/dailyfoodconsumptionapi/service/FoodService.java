@@ -5,8 +5,10 @@ import org.fasttrackit.dailyfoodconsumptionapi.domain.Food;
 import org.fasttrackit.dailyfoodconsumptionapi.exception.ResourceNotFoundException;
 import org.fasttrackit.dailyfoodconsumptionapi.persistence.FoodRepository;
 import org.fasttrackit.dailyfoodconsumptionapi.transfer.CreateFoodRequest;
+import org.fasttrackit.dailyfoodconsumptionapi.transfer.UpdateFoodRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,23 @@ public class FoodService {
         return foodRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Food " + id + "not found"));
+    }
+
+    public Food updateFood (long id, UpdateFoodRequest request) throws ResourceNotFoundException {
+        LOGGER.info("Updating food {}, {}", id, request);
+        Food food = getFood(id);
+
+        BeanUtils.copyProperties(request, food);
+
+        return foodRepository.save(food);
+    }
+
+    public void deleteFood (long id){
+        LOGGER.info("Deleting food {}", id);
+        foodRepository.deleteById(id);
+        LOGGER.info("Deleted food {}", id);
+
+
+
     }
 }
