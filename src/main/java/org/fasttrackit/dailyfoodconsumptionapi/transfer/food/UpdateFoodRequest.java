@@ -1,4 +1,4 @@
-package org.fasttrackit.dailyfoodconsumptionapi.transfer;
+package org.fasttrackit.dailyfoodconsumptionapi.transfer.food;
 
 public class UpdateFoodRequest {
     private String name;
