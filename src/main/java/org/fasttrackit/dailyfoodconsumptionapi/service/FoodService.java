@@ -84,6 +84,6 @@ public class FoodService {
         foodRepository.deleteById(id);
         LOGGER.info("Deleted food {}", id);
 
-
     }
+
 }

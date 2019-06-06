@@ -4,11 +4,14 @@ import org.fasttrackit.dailyfoodconsumptionapi.domain.Food;
 import org.fasttrackit.dailyfoodconsumptionapi.exception.ResourceNotFoundException;
 import org.fasttrackit.dailyfoodconsumptionapi.service.FoodService;
 import org.fasttrackit.dailyfoodconsumptionapi.transfer.food.CreateFoodRequest;
+import org.fasttrackit.dailyfoodconsumptionapi.transfer.food.GetFoodsRequest;
 import org.fasttrackit.dailyfoodconsumptionapi.transfer.food.UpdateFoodRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -85,5 +88,21 @@ public class FoodServiceIntegrationTests {
 
         foodService.getFood(createdFood.getId());
 
+    }
+
+    @Test
+    public void testGetFoods_whenAllInformationProvidedAndMatching_thenReturnFilteredResults() {
+        Food createdFood = createFood();
+
+        GetFoodsRequest request = new GetFoodsRequest();
+        request.setPartialName("Mil");
+        request.setMinimumNutritionDeclaration(20);
+        request.setMaximumNutritionDeclaration(210);
+        request.setMinimumQuantity(1);
+
+        Page<Food> foods =
+                foodService.getFoods(request, PageRequest.of(0, 10));
+
+        assertThat(foods.getTotalElements(), greaterThanOrEqualTo(1L));
     }
 }
