@@ -1,6 +1,9 @@
 package org.fasttrackit.dailyfoodconsumptionapi.transfer.food;
 
+import javax.validation.constraints.NotBlank;
+
 public class UpdateFoodRequest {
+    @NotBlank
     private String name;
     private int nutritionDeclaration;
     private int quantity;
