@@ -1,36 +1,33 @@
 package org.fasttrackit.dailyfoodconsumptionapi.transfer.meal;
 
-import org.fasttrackit.dailyfoodconsumptionapi.transfer.food.FoodIdentifier;
-import org.fasttrackit.dailyfoodconsumptionapi.transfer.user.UserIdentifier;
-
 import java.util.Set;
 
 public class SaveMealRequest {
 
-    private UserIdentifier user;
-    private Set<FoodIdentifier> foods;
+    private long userId;
+    private Set<Long> foodIds;
 
-    public UserIdentifier getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(UserIdentifier user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public Set<FoodIdentifier> getFoods() {
-        return foods;
+    public Set<Long> getFoodIds() {
+        return foodIds;
     }
 
-    public void setFoods(Set<FoodIdentifier> foods) {
-        this.foods = foods;
+    public void setFoodIds(Set<Long> foodIds) {
+        this.foodIds = foodIds;
     }
 
     @Override
     public String toString() {
         return "SaveMealRequest{" +
-                "user=" + user +
-                ", foods=" + foods +
+                "userId=" + userId +
+                ", foodIds=" + foodIds +
                 '}';
     }
 }
