@@ -1,11 +1,10 @@
 package org.fasttrackit.dailyfoodconsumptionapi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Food {
@@ -20,12 +19,23 @@ public class Food {
     private int nutritionDeclaration;
     private int quantity;
 
+    @ManyToMany(mappedBy = "foods")
+    private Set<Meal> meals = new HashSet<>();
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Set<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(Set<Meal> meals) {
+        this.meals = meals;
     }
 
     public String getName() {

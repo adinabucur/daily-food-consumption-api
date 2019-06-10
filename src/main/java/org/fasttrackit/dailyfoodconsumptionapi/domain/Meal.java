@@ -20,6 +20,16 @@ public class Meal {
             inverseJoinColumns = @JoinColumn(name = "food_id"))
     private Set<Food> foods = new HashSet<>();
 
+    public void addFood(Food food){
+        foods.add(food);
+        food.getMeals().add(this);
+    }
+
+    public void removeFood (Food food){
+        foods.remove(food);
+        food.getMeals().remove(this);
+    }
+
     public long getId() {
         return id;
     }
@@ -34,5 +44,13 @@ public class Meal {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Food> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(Set<Food> foods) {
+        this.foods = foods;
     }
 }
