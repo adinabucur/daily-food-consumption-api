@@ -3,7 +3,7 @@ package org.fasttrackit.dailyfoodconsumptionapi;
 import org.fasttrackit.dailyfoodconsumptionapi.domain.Food;
 import org.fasttrackit.dailyfoodconsumptionapi.exception.ResourceNotFoundException;
 import org.fasttrackit.dailyfoodconsumptionapi.service.FoodService;
-import org.fasttrackit.dailyfoodconsumptionapi.transfer.food.CreateFoodRequest;
+import org.fasttrackit.dailyfoodconsumptionapi.steps.FoodSteps;
 import org.fasttrackit.dailyfoodconsumptionapi.transfer.food.GetFoodsRequest;
 import org.fasttrackit.dailyfoodconsumptionapi.transfer.food.UpdateFoodRequest;
 import org.junit.Test;
@@ -25,22 +25,17 @@ public class FoodServiceIntegrationTests {
     @Autowired
     private FoodService foodService;
 
+    @Autowired
+    private FoodSteps foodSteps;
+    
     @Test
     public void testCreateFood_whenValidRequest_thenReturnFoodWithId() {
-        Food food = createFood();
+        Food food = foodSteps.createFood();
 
         assertThat(food, notNullValue());
         assertThat(food.getId(), greaterThan(0L));
     }
 
-    private Food createFood() {
-        CreateFoodRequest request = new CreateFoodRequest();
-        request.setName("Milk");
-        request.setNutritionDeclaration(200);
-        request.setQuantity(2);
-
-        return foodService.createFood(request);
-    }
 
     @Test(expected = ResourceNotFoundException.class)
     public void testGetFood_whenFoodNotFound_thenThrowResourceNotFoundException() throws ResourceNotFoundException {
@@ -49,7 +44,7 @@ public class FoodServiceIntegrationTests {
 
     @Test
     public void testGetFood_whenExistingId_thenReturnMatchingFood() throws ResourceNotFoundException {
-        Food food = createFood();
+        Food food = foodSteps.createFood();
 
         Food retrievedFood = foodService.getFood(food.getId());
 
@@ -60,7 +55,7 @@ public class FoodServiceIntegrationTests {
 
     @Test
     public void testUpdateFood_whenValidRequestWithAllFields_thenReturnUpdatedFood() throws ResourceNotFoundException {
-        Food createdFood = createFood();
+        Food createdFood = foodSteps.createFood();
 
         UpdateFoodRequest request = new UpdateFoodRequest();
         request.setName(createdFood.getName() + "_Edited");
@@ -82,7 +77,7 @@ public class FoodServiceIntegrationTests {
 
     @Test(expected = ResourceNotFoundException.class)
     public void testDeleteFood_whenExistingId_thenFoodIsDeleted() throws ResourceNotFoundException {
-        Food createdFood = createFood();
+        Food createdFood = foodSteps.createFood();
 
         foodService.deleteFood(createdFood.getId());
 
@@ -92,7 +87,7 @@ public class FoodServiceIntegrationTests {
 
     @Test
     public void testGetFoods_whenAllInformationProvidedAndMatching_thenReturnFilteredResults() {
-        Food createdFood = createFood();
+        Food createdFood = foodSteps.createFood();
 
         GetFoodsRequest request = new GetFoodsRequest();
         request.setPartialName("Mil");
